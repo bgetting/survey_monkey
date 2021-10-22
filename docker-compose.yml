@@ -1,0 +1,10 @@
+version: '3'
+services:
+  ruby:
+    build:
+      context: .
+    environment:
+      SURVEY_MONKEY_API_SECRET: '271359005844190733003751144372128491854'
+      SURVEY_MONKEY_API_TOKEN: 'nTxsBf-VruLlFgxHpCRlmKjdEmzK.QNGQZ.8kM1VsAfb-NP-9ijQggRFU6uil.LsZ8nOioA5e7Gtmtuf5elZT9EO41KwHyp9NQyaxTwNrQgIj4XrqLsg7VqAX0kezyzS'
+    volumes:
+      - .:/gem

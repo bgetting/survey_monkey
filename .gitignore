@@ -1,10 +1,14 @@
 /.bundle/
 /.yardoc
 /_yardoc/
+/build_info/
+/cache/
 /coverage/
 /doc/
+/gems/
 /pkg/
 /spec/reports/
+/specifications/
 /tmp/
 
 # rspec failure tracking

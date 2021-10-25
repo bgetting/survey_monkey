@@ -20,7 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-Expects an `ENV` variable called `SURVEY_MONKEY_ACCESS_TOKEN` that is a valid API access token for the Survey Monkey API. A list of resources and the methods that are available for them can be found by looking throug the gem files.
+Expects an `ENV` variable called `SURVEY_MONKEY_ACCESS_TOKEN` that is a valid API access token for the Survey Monkey API. [Take a look at each resource](https://github.com/bgetting/survey_monkey/tree/main/lib/survey_monkey) to see the methods that correspond to the endpoints in the [Survey Monkey documentation](https://developer.surveymonkey.com/api/v3/).
 
 ```ruby
 surveys = SurveyMonkey::Survey.all
@@ -44,7 +44,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/survey_monkey.
+Bug reports and pull requests are welcome on GitHub at https://github.com/bgetting/survey_monkey.
 
 ## License
 

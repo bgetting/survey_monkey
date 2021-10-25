@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 module SurveyMonkey
-  class NoApiTokenError < StandardError; end
-
   class AuthorizationError < StandardError
     def initialize(message, docs)
       @docs = docs
@@ -23,6 +21,8 @@ module SurveyMonkey
       super(message)
     end
   end
+
+  class ConfigurationError < StandardError; end
 
   class EntityTooLargeError < StandardError
     def initialize(message, docs)

@@ -4,13 +4,10 @@ module SurveyMonkey
   class Base
     include HTTParty
     base_uri 'https://api.surveymonkey.com/v3'
-    headers(
-      {
-        'Accept': 'application/json',
-        'Authorization': "Bearer #{ENV.fetch('SURVEY_MONKEY_API_TOKEN', nil)}",
-        'Content-Type': 'application/json'
-      }
-    )
+    headers({
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    })
 
     class << self
       def handle_error(error:)
@@ -19,7 +16,7 @@ module SurveyMonkey
       end
 
       def request(method:, path:, options: {})
-        raise NoApiTokenError unless ENV.fetch('SURVEY_MONKEY_API_TOKEN')
+        headers({ 'Authorization': "Bearer #{SurveyMonkey.configuration.api_token}" })
         response = self.send(method.to_s, path, **options).deep_symbolize_keys
         return response unless response.has_key?(:error)
         handle_error(error: response[:error])

@@ -5,6 +5,7 @@ require 'active_support/core_ext/string/inflections'
 require 'httparty'
 require 'json'
 
+require 'survey_monkey/configuration'
 require 'survey_monkey/base'
 require 'survey_monkey/benchmark_bundle'
 require 'survey_monkey/category'
@@ -29,4 +30,19 @@ require 'survey_monkey/webhook'
 require 'survey_monkey/workgroup'
 
 module SurveyMonkey
+  class << self
+    attr_accessor :configuration
+  end
+
+  def self.configuration
+    @configuration ||= Configuration.new
+  end
+
+  def self.reset
+    @configuration = Configuration.new
+  end
+
+  def self.configure
+    yield(configuration)
+  end
 end

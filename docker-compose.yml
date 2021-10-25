@@ -3,8 +3,5 @@ services:
   ruby:
     build:
       context: .
-    environment:
-      SURVEY_MONKEY_API_SECRET: 'FAKE-SECRET'
-      SURVEY_MONKEY_API_TOKEN: 'FAKE-TOKEN'
     volumes:
       - .:/gem

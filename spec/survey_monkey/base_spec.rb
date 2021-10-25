@@ -33,63 +33,88 @@ RSpec.describe SurveyMonkey::Base do
     let(:method) { :get }
     let(:options) { {} }
     let(:path) { '/fake-path' }
-    let(:response) { double('response') }
-    let(:url) { "https://api.surveymonkey.com/v3#{path}" }
-    let(:payload) do
-      { title: 'Fake API response' }
-    end
-    let(:req_headers) do
-      {
-        'Accept': 'application/json',
-        'Accept-Encoding': 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-        'Authorization': 'Bearer FAKE-TOKEN', # Set in docker-compose.yml
-        'Content-Type': 'application/json',
-        'User-Agent': 'Ruby'
-      }
-    end
-    let(:resp_headers) do
-      { 'Content-Type': 'application/json' }
-    end
-    
-    before do
-      stub_request(:get, url).
-        with(headers: req_headers).
-        to_return(status: 200, body: payload.to_json, headers: resp_headers)
-    end
 
-    context 'when response has no error' do
-      it 'returns the API response' do
-        expect(subject).to eq(payload)
-      end
-    end
-
-    context 'when response has an error' do
+    context 'when API token is configured' do
+      let(:api_token) { 'FAKE-TOKEN' }
+      let(:response) { double('response') }
+      let(:url) { "https://api.surveymonkey.com/v3#{path}" }
       let(:payload) do
+        { title: 'Fake API response' }
+      end
+      let(:req_headers) do
         {
-          error: {
-            docs: 'http://developer.surveymonkey.com/api/v3/#error-codes',
-            message: 'Oh bananas! We couldn\'t process your request.',
-            id: '1050',
-            name: 'Internal Server Error',
-            http_status_code: 500
-          }
+          'Accept': 'application/json',
+          'Accept-Encoding': 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+          'Authorization': "Bearer #{api_token}",
+          'Content-Type': 'application/json',
+          'User-Agent': 'Ruby'
         }
       end
+      let(:resp_headers) do
+        { 'Content-Type': 'application/json' }
+      end
 
-      it 'calls #handle_error' do
-        expect(SurveyMonkey::Base).to receive(:handle_error).with(error: payload[:error])
-        subject
+      before do
+        stub_request(:get, url).
+          with(headers: req_headers).
+          to_return(status: 200, body: payload.to_json, headers: resp_headers)
+        SurveyMonkey.configure do |config|
+          config.api_token = api_token
+        end
+      end
+
+      after do
+        SurveyMonkey.configure do |config|
+          config.api_token = nil
+        end
+      end
+
+      context 'when response has no error' do
+        it 'returns the API response' do
+          expect(subject).to eq(payload)
+        end
+      end
+  
+      context 'when response has an error' do
+        let(:payload) do
+          {
+            error: {
+              docs: 'http://developer.surveymonkey.com/api/v3/#error-codes',
+              message: 'Oh bananas! We couldn\'t process your request.',
+              id: '1050',
+              name: 'Internal Server Error',
+              http_status_code: 500
+            }
+          }
+        end
+  
+        it 'calls #handle_error' do
+          expect(SurveyMonkey::Base).to receive(:handle_error).with(error: payload[:error])
+          subject
+        end
+      end
+  
+      context 'when options are passed' do
+        let(:options) do
+          { query: { title: 'Test' } }
+        end
+        let(:url) { "https://api.surveymonkey.com/v3#{path}?title=Test" }
+  
+        it 'includes options in the request' do
+          expect(subject).to eq(payload)
+        end
       end
     end
 
-    context 'when options are passed' do
-      let(:options) do
-        { query: { title: 'Test' } }
+    context 'when API token is not configured' do
+      before do
+        SurveyMonkey.configure do |config|
+          config.api_token = nil
+        end
       end
-      let(:url) { "https://api.surveymonkey.com/v3#{path}?title=Test" }
 
-      it 'includes options in the request' do
-        expect(subject).to eq(payload)
+      it 'raises a ConfigurationError' do
+        expect { subject }.to raise_error(SurveyMonkey::ConfigurationError)
       end
     end
   end

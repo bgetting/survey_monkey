@@ -7,7 +7,7 @@ module SurveyMonkey
     headers(
       {
         'Accept': 'application/json',
-        'Authorization': "Bearer #{ENV.fetch('SURVEY_MONKEY_API_TOKEN')}",
+        'Authorization': "Bearer #{ENV.fetch('SURVEY_MONKEY_API_TOKEN', nil)}",
         'Content-Type': 'application/json'
       }
     )
@@ -17,6 +17,15 @@ module SurveyMonkey
         error_type = parse_error(error: error)
         raise "SurveyMonkey::#{error_type}".constantize.new(error[:message], error[:docs])
       end
+
+      def request(method:, path:, options: {})
+        raise NoApiTokenError unless ENV.fetch('SURVEY_MONKEY_API_TOKEN')
+        response = self.send(method.to_s, path, **options).deep_symbolize_keys
+        return response unless response.has_key?(:error)
+        handle_error(error: response[:error])
+      end
+
+      private
 
       def parse_error(error:)
         case error[:http_status_code]
@@ -43,12 +52,6 @@ module SurveyMonkey
         else
           'BadGatewayError'
         end
-      end
-
-      def request(method:, path:, options: {})
-        response = self.send(method.to_s, path, **options).deep_symbolize_keys
-        return response unless response.has_key?(:error)
-        handle_error(error: response[:error])
       end
     end
   end

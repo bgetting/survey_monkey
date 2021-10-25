@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module SurveyMonkey
+  class NoApiTokenError < StandardError; end
+
   class AuthorizationError < StandardError
     def initialize(message, docs)
       @docs = docs

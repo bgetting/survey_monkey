@@ -20,7 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-Expects an `ENV` variable called `SURVEY_MONKEY_ACCESS_TOKEN` that is a valid API access token for the Survey Monkey API. [Take a look at each resource](https://github.com/bgetting/survey_monkey/tree/main/lib/survey_monkey) to see the methods that correspond to the endpoints in the [Survey Monkey documentation](https://developer.surveymonkey.com/api/v3/).
+Expects an `ENV` variable called `SURVEY_MONKEY_API_TOKEN` that is a valid API access token for the Survey Monkey API. [Take a look at each resource](https://github.com/bgetting/survey_monkey/tree/main/lib/survey_monkey) to see the methods that correspond to the endpoints in the [Survey Monkey documentation](https://developer.surveymonkey.com/api/v3/).
 
 ```ruby
 surveys = SurveyMonkey::Survey.all

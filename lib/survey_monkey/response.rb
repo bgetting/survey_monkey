@@ -14,6 +14,11 @@ module SurveyMonkey
         request(method: :delete, path: path)
       end
 
+      def details(collector_id:, response_id:)
+        path = "/collectors/#{collector_id}/responses/#{response_id}/details"
+        request(method: :get, path: path)
+      end
+
       def find(collector_id:, response_id:)
         path = "/collectors/#{collector_id}/responses/#{response_id}"
         request(method: :get, path: path)

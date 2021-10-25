@@ -34,6 +34,20 @@ RSpec.describe SurveyMonkey::Response do
     end
   end
 
+  describe '#details' do
+    subject do
+      described_class.details(collector_id: collector_id, response_id: response_id)
+    end
+
+    let(:method) { :get }
+    let(:path) { "/collectors/#{collector_id}/responses/#{response_id}/details" }
+
+    it 'calls the correct API endpoint' do
+      expect(described_class).to receive(:request).with(method: method, path: path)
+      subject
+    end
+  end
+
   describe '#find' do
     subject do
       described_class.find(collector_id: collector_id, response_id: response_id)

@@ -3,7 +3,6 @@ FROM ruby:3-alpine
 # Install dependencies
 RUN apk update && apk add -q\
   alpine-sdk \
-  git \
   less \
   ruby-irb \
   util-linux \

@@ -38,7 +38,7 @@ webhook = SurveyMonkey::Webhook.create({
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `bin/rspec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
-If you are using Docker, simply build a container with `docker-compose build`, then run `docker-compose run --rm ruby sh` to start an interactive shell where you can run commands like `bin/rspec`, etc.
+If you are using Docker, add your Survey Monkey API access token to `docker-compose.yml`, then build a container with `docker-compose build`. After that run `docker-compose run --rm ruby sh` to start an interactive shell where you can run commands like `bin/rspec`, etc.
 
 To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 

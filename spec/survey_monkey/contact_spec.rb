@@ -56,7 +56,7 @@ RSpec.describe SurveyMonkey::Contact do
   end
 
   describe '#delete' do
-    subject { described_class.delete(id: id) }
+    subject { described_class.destroy(id: id) }
 
     let(:method) { :delete }
     let(:path) { "/contacts/#{id}" }

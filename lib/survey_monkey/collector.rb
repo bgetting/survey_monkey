@@ -8,7 +8,7 @@ module SurveyMonkey
         request(method: :get, path: path, options: { query: params})
       end
 
-      def delete(id:)
+      def destroy(id:)
         path = "/collectors/#{id}"
         request(method: :delete, path: path)
       end

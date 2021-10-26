@@ -35,7 +35,7 @@ RSpec.describe SurveyMonkey::Webhook do
 
   describe '#delete' do
     subject do
-      described_class.delete(id: id)
+      described_class.destroy(id: id)
     end
 
     let(:method) { :delete }

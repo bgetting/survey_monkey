@@ -14,7 +14,7 @@ module SurveyMonkey
         request(method: :post, path: path, options: { body: recipients.to_json })
       end
 
-      def delete(collector_id:, message_id:)
+      def destroy(collector_id:, message_id:)
         path = "/collectors/#{collector_id}/messages/#{message_id}"
         request(method: :delete, path: path)
       end

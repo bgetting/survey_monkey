@@ -21,7 +21,7 @@ RSpec.describe SurveyMonkey::Collector do
   end
 
   describe '#delete' do
-    subject { described_class.delete(id: id) }
+    subject { described_class.destroy(id: id) }
 
     let(:method) { :delete }
     let(:path) { "/collectors/#{id}" }

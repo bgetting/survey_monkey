@@ -46,7 +46,7 @@ RSpec.describe SurveyMonkey::Message do
 
   describe '#delete' do
     subject do
-      described_class.delete(collector_id: collector_id,message_id: message_id)
+      described_class.destroy(collector_id: collector_id,message_id: message_id)
     end
 
     let(:method) { :delete }

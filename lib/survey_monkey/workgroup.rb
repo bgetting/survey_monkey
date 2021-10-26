@@ -29,7 +29,7 @@ module SurveyMonkey
         request(method: :post, path: path, options: { body: workgroup.to_json })
       end
 
-      def delete(id:)
+      def destroy(id:)
         path = "/workgroups/#{id}"
         request(method: :delete, path: path)
       end

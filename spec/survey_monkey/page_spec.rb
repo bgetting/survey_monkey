@@ -24,7 +24,7 @@ RSpec.describe SurveyMonkey::Page do
 
   describe '#delete' do
     subject do
-      described_class.delete(survey_id: survey_id, page_id: page_id)
+      described_class.destroy(survey_id: survey_id, page_id: page_id)
     end
 
     let(:method) { :delete }

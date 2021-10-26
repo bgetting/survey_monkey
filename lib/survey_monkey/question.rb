@@ -14,7 +14,7 @@ module SurveyMonkey
         request(method: :post, path: path, options: { body: question.to_json })
       end
 
-      def delete(survey_id:, page_id:, question_id:)
+      def destroy(survey_id:, page_id:, question_id:)
         path = "/surveys/#{survey_id}/pages/#{page_id}/questions/#{question_id}"
         request(method: :delete, path: path)
       end

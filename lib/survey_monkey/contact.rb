@@ -24,7 +24,7 @@ module SurveyMonkey
         request(method: :post, path: path, options: { body: contact.to_json })
       end
 
-      def delete(id:)
+      def destroy(id:)
         path = "/contacts/#{id}"
         request(method: :delete, path: path)
       end

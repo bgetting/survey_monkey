@@ -14,7 +14,7 @@ module SurveyMonkey
         request(method: :post, path: path, options: { body: webhook.to_json })
       end
 
-      def delete(id:)
+      def destroy(id:)
         path = "/webhooks/#{id}"
         request(method: :delete, path: path)
       end

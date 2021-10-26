@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["brian@tatem.ae"]
 
   spec.summary       = "A very thin wrapper for interacting with the SurveyMonkey API."
-  spec.description   = "A very thin wrapper for interacting with the SurveyMonkey API."
+  spec.description   = "A very thin wrapper for interacting with the SurveyMonkey API. Returns a hash of the API response, and provides messaging when errors are returned."
   spec.homepage      = "https://github.com/bgetting/survey_monkey"
   spec.license       = "MIT"
   spec.required_ruby_version = ">= 2.4.0"

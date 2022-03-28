@@ -2,22 +2,31 @@
 
 module SurveyMonkey
   class AuthorizationError < StandardError
-    def initialize(message, docs)
+    attr_reader :docs, :headers
+    
+    def initialize(message, docs, headers)
       @docs = docs
+      @headers = headers
       super(message)
     end
   end
 
   class BadGatewayError < StandardError
-    def initialize(message, docs)
+    attr_reader :docs, :headers
+    
+    def initialize(message, docs, headers)
       @docs = docs
+      @headers = headers
       super(message)
     end
   end
 
   class BadRequestError < StandardError
-    def initialize(message, docs)
+    attr_reader :docs, :headers
+    
+    def initialize(message, docs, headers)
       @docs = docs
+      @headers = headers
       super(message)
     end
   end
@@ -25,50 +34,71 @@ module SurveyMonkey
   class ConfigurationError < StandardError; end
 
   class EntityTooLargeError < StandardError
-    def initialize(message, docs)
+    attr_reader :docs, :headers
+    
+    def initialize(message, docs, headers)
       @docs = docs
+      @headers = headers
       super(message)
     end
   end
 
   class InternalServerError < StandardError
-    def initialize(message, docs)
+    attr_reader :docs, :headers
+    
+    def initialize(message, docs, headers)
       @docs = docs
+      @headers = headers
       super(message)
     end
   end
 
   class NotFoundError < StandardError
-    def initialize(message, docs)
+    attr_reader :docs, :headers
+    
+    def initialize(message, docs, headers)
       @docs = docs
+      @headers = headers
       super(message)
     end
   end
 
   class PermissionError < StandardError
-    def initialize(message, docs)
+    attr_reader :docs, :headers
+    
+    def initialize(message, docs, headers)
       @docs = docs
+      @headers = headers
       super(message)
     end
   end
 
   class RateLimitReachedError < StandardError
-    def initialize(message, docs)
+    attr_reader :docs, :headers
+
+    def initialize(message, docs, headers)
       @docs = docs
+      @headers = headers
       super(message)
     end
   end
 
   class ResourceConflictError < StandardError
-    def initialize(message, docs)
+    attr_reader :docs, :headers
+
+    def initialize(message, docs, headers)
       @docs = docs
+      @headers = headers
       super(message)
     end
   end
 
   class UserDeletedError < StandardError
-    def initialize(message, docs)
+    attr_reader :docs, :headers
+
+    def initialize(message, docs, headers)
       @docs = docs
+      @headers = headers
       super(message)
     end
   end

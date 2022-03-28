@@ -10,16 +10,18 @@ module SurveyMonkey
     })
 
     class << self
-      def handle_error(error:)
+      def handle_error(error:, headers:)
         error_type = parse_error(error: error)
-        raise "SurveyMonkey::#{error_type}".constantize.new(error[:message], error[:docs])
+        raise "SurveyMonkey::#{error_type}".constantize.new(error[:message], error[:docs], headers)
       end
 
       def request(method:, path:, options: {})
         headers({ 'Authorization': "Bearer #{SurveyMonkey.configuration.api_token}" })
-        response = self.send(method.to_s, path, **options).deep_symbolize_keys
+        response = self.send(method.to_s, path, **options)
+        headers = response.headers
+        response = response.deep_symbolize_keys
         return response unless response.has_key?(:error)
-        handle_error(error: response[:error])
+        handle_error(error: response[:error], headers: headers.to_h)
       end
 
       private

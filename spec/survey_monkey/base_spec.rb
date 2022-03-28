@@ -2,7 +2,7 @@
 
 RSpec.describe SurveyMonkey::Base do
   describe '#handle_error' do
-    subject { described_class.handle_error(error: error) }
+    subject { described_class.handle_error(error: error_response, headers: headers) }
     [
       [400, 'BadRequestError'],
       [401, 'AuthorizationError'],
@@ -17,11 +17,29 @@ RSpec.describe SurveyMonkey::Base do
       [505, 'BadGatewayError']
     ].each do |status|
       context "when HTTP status is #{status[0]}" do
-        let(:error) { { http_status_code: status[0] } }
+        let(:error_response) do
+          { 
+            docs: 'http://developer.surveymonkey.com/api/v3/#error-codes',
+            http_status_code: status[0],
+            message: 'Oh bananas! We couldn\'t process your request.'
+          }
+        end
+        let(:headers) do
+          { 
+            'content-type' => ['application/json'],
+            'x-ratelimit-app-global-minute-limit' => ['120']
+          }
+        end
         let(:exception) { "SurveyMonkey::#{status[1]}".constantize }
   
         it "raises SurveyMonkey::#{status[1]}" do
-          expect { subject }.to raise_error(exception)
+          expect { subject }.to raise_error { |error|
+            expect(error).to be_a(exception)
+            expect(error.docs).to eq(error_response[:docs])
+            expect(error.headers).to eq(headers)
+            expect(error.headers['x-ratelimit-app-global-minute-limit']).to eq(['120'])
+            expect(error.message).to eq(error_response[:message])
+          }
         end
       end
     end
@@ -51,7 +69,10 @@ RSpec.describe SurveyMonkey::Base do
         }
       end
       let(:resp_headers) do
-        { 'Content-Type': 'application/json' }
+        { 
+          'content-type': ['application/json'],
+          'x-ratelimit-app-global-minute-limit': ['120']
+        }
       end
 
       before do
@@ -80,6 +101,7 @@ RSpec.describe SurveyMonkey::Base do
           {
             error: {
               docs: 'http://developer.surveymonkey.com/api/v3/#error-codes',
+              headers: resp_headers,
               message: 'Oh bananas! We couldn\'t process your request.',
               id: '1050',
               name: 'Internal Server Error',
@@ -89,7 +111,7 @@ RSpec.describe SurveyMonkey::Base do
         end
   
         it 'calls #handle_error' do
-          expect(SurveyMonkey::Base).to receive(:handle_error).with(error: payload[:error])
+          expect(SurveyMonkey::Base).to receive(:handle_error).with(error: payload[:error], headers: resp_headers.stringify_keys)
           subject
         end
       end
